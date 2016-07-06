@@ -162,15 +162,15 @@ new Vue({
         },
 
         addArticle: function(section) {
-            var parentEvent = event;
+            var parentEvent = ( typeof event != "undefined" ? event : false ) ;
 
             swal({
-                title: weDocs.enter_doc_title,
+                title: "Enter doc title",
                 type: "input",
                 showCancelButton: true,
                 closeOnConfirm: true,
                 animation: "slide-from-top",
-                inputPlaceholder: weDocs.write_something
+                inputPlaceholder: "Write something"
             }, function(inputValue){
                 if (inputValue === false) {
                     return false;
@@ -187,11 +187,13 @@ new Vue({
                     },
                     success: function(res) {
                         section.child.push( res );
+                        
+                        if( parentEvent != false ) { 
+                           var articles = jQuery( parentEvent.target ).closest('.section-title').next();
 
-                        var articles = jQuery( parentEvent.target ).closest('.section-title').next();
-
-                        if ( articles.hasClass('collapsed') ) {
-                            articles.removeClass('collapsed');
+                           if ( articles.hasClass('collapsed') ) {
+                              articles.removeClass('collapsed');
+                           }
                         }
                     },
                     error: function(error) {
